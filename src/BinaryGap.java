@@ -1,13 +1,5 @@
 public class BinaryGap {
-    // Implement your solution here
     // Return the longest binary gap representation of a given N
-
-    // Convert N to its binary representation
-    // Loop through the integers that can be chars
-    // Count each zero until we find another one
-    // if the next value is 1, stop counting
-    // if the next value is null, stop the function
-
     /*
         Integer actualCounter = 0;
         Integer finalCounter = 0;
@@ -18,7 +10,6 @@ public class BinaryGap {
 
         Functions:
             Integer.toBinaryString(numberToBeConverted);
-
 
         Convert N to binary and convert to chars
         Start the loop
@@ -33,46 +24,47 @@ public class BinaryGap {
                     else nothing;
                     then we reset the actual Counter;
     */
+    private int i = 0;
+    private int finalCounter = 0;
+    private int size;
+    private String[] binary;
+
+    private BinaryGap(String[] binary) {
+        this.binary = binary;
+        this.size = binary.length;
+    }
 
     public static void main(String[] args) {
-        int[] ns = {561892,74901729,1376796946};
+        int[] ns = {561892,74901729,1376796946,1014};
 
         for(int number : ns) {
             String[] binary = Integer.toBinaryString(number).split("");
-            System.out.println(binaryGap(binary));
-        }
-
-        int[] nm = {1014,15,32,1,5,6};
-
-        for(int number : nm) {
-            String[] binary = Integer.toBinaryString(number).split("");
-            System.out.println(binaryGap(binary));
+            System.out.printf(" %s ", new BinaryGap(binary).binaryGap());
         }
     }
 
-    private static int binaryGap(String[] binary) {
-        int index = 0;
-        int finalCounter = 0;
-
-        while(index + 1 < binary.length) {
+    private int binaryGap() {
+        while(i + 1 < size) {
             int actualCounter = 0;
-            String actual = binary[index];
-            if(actual.equals("1")) {
-                while(index + 1 < binary.length) {
-                    if (binary[index+1].equals("0")) {
-                        actualCounter++;
-                        index++;
-                    } else {
-                        if(actualCounter > finalCounter) {
-                            finalCounter = actualCounter;
-                        }
-                        break;
-                    }
-                }
+            if(binary[i].equals("1")) {
+                calculateGap(actualCounter);
             }
-            index++;
+            i++;
         }
 
         return finalCounter;
+    }
+
+    private void calculateGap(int actualCounter) {
+        while(i + 1 < size) {
+            if (binary[i+1].equals("0")) {
+                actualCounter++;
+                i++;
+            } else {
+                if(actualCounter > finalCounter)
+                    finalCounter = actualCounter;
+                break;
+            }
+        }
     }
 }
